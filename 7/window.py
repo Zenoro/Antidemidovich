@@ -1,14 +1,17 @@
-import tkinter
 from tkinter import *
 from tkinter import messagebox
 from tkinter.ttk import Combobox
 import draw as dro
 from PIL import Image, ImageTk
-import os, time
-if os.getcwd().endswith("my_osip"):
+import os
+import time
+
+
+if os.getcwd().endswith("ODU-solutions"):
     os.chdir("7")
 
-def insert_info_into_entry(entr:Entry, info:str):
+
+def insert_info_into_entry(entr: Entry, info: str):
     entr.config(state='normal')
     entr.delete(0, END)
     entr.insert(END, info)
@@ -26,9 +29,11 @@ def start_handler():
         L = abs(x_r - x_l)
         H = abs(y_t - y_l)
         iter_num = int(combo.get())
+        if not os.path.exists("a.out"):
+            print("Compiling CPP code...", end='')
+            os.system("g++ main.cpp")
+            print("\tDone!")
         os.system(f"./a.out {x_l} {y_t} {L} {H} {a} {b} {iter_num}")
-        while not os.path.exists("res.txt"):
-            time.sleep(0.1)
         with open("res.txt", "r") as fd:
             for line in fd:
                 pass
@@ -43,15 +48,13 @@ def start_handler():
     except ValueError:
         messagebox.showinfo('Ошибка ValueError',
                             "Вы ввели необходимые параметры неверно.")
-    # except NameError:
-    #     messagebox.showinfo('Ошибка ValueError',
-    #                         "Параметр количества точек должен быть целым числом.")
 
 
 def draw_handler():
     if not os.path.exists("res.txt"):
         messagebox.showinfo('Ошибка ResNotFound',
-                            "Файл с результатами не был найден\nПопробуйте запустить программу снова либо изменить директорию")
+                            "Файл с результатами не был найден\nПопробуйте запустить \
+программу снова либо изменить директорию")
         return
     h = eval(h_entry.get())
     itrc = int(combo.get())
@@ -135,7 +138,7 @@ b_param_ctch.grid(row=2,
                   sticky=W)
 
 """Текст координат"""
-Label(root, text="Координаты изначальной области", 
+Label(root, text="Координаты изначальной области",
       font=("Arial Bold", 10),
       bg="#FFFFFF").grid(row=3, column=0,
                          columnspan=4)
@@ -165,7 +168,7 @@ x1_ctch.grid(row=4,
 # y coords
 Label(root, text="y0 ", bg="#FFFFFF").grid(row=5,
                                            column=0,
-                                           sticky=E)  
+                                           sticky=E)
 y0_ctch = Entry(root,
                 width=9)
 y0_ctch.insert(END, '-2')
@@ -191,9 +194,9 @@ Label(root, text="Количество итераций",
                          sticky=E)
 
 combo = Combobox(root)
-combo['values'] = list(range(5,15))
+combo['values'] = list(range(5, 15))
 combo.current(3)
-combo.grid(row=6, column=2, 
+combo.grid(row=6, column=2,
            columnspan=2,
            sticky=W)
 
@@ -232,23 +235,20 @@ h_entry.grid(row=8, column=2,
 
 """Затраченное время"""
 Label(root, text="Затраченное время (s)",
-      bg="#FFFFFF").grid(row=9,
-                         column=0,
+      bg="#FFFFFF").grid(row=9, column=0,
                          sticky=E,
                          columnspan=2,
                          padx=4, pady=1)
 time_elapsed_entry = Entry(root, width=10, bg="#FFFFFF")
 time_elapsed_entry.config(state='readonly')
-time_elapsed_entry.grid(row=9,
-                        column=2, 
-                        columnspan=2, 
-                        sticky=W, 
+time_elapsed_entry.grid(row=9, column=2,
+                        columnspan=2,
+                        sticky=W,
                         padx=4, pady=1)
 
 """Количество ячеек"""
 Label(root, text="Количество ячеек",
-      bg="#FFFFFF").grid(row=10,
-                         column=0,
+      bg="#FFFFFF").grid(row=10, column=0,
                          sticky=E,
                          columnspan=2,
                          padx=4, pady=1)
@@ -261,8 +261,7 @@ cells_entry.grid(row=10, column=2,
 
 """Компонент сильной связности"""
 Label(root, text="Компонент сильной связности",
-      bg="#FFFFFF").grid(row=11,
-                         column=0,
+      bg="#FFFFFF").grid(row=11, column=0,
                          sticky=E,
                          columnspan=2,
                          padx=4, pady=1)

@@ -1,11 +1,10 @@
 import matplotlib.pyplot as plt
 from matplotlib.colors import Normalize
-from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 import numpy as np
 
 
-def main(filename:str, d:float, iterc:int):
+def main(filename: str, d: float, iterc: int):
     figure = plt.figure(figsize=(5, 4))
     axis = figure.add_subplot(111, projection='3d')
     x, y, val = [], [], []
@@ -22,5 +21,5 @@ def main(filename:str, d:float, iterc:int):
     norm = Normalize(vmin=min(val), vmax=max(val))
     colors = cmap(norm(val))
     axis.bar3d(x, y, np.zeros_like(x), d, d, val, shade=True, color=colors)
-    plt.savefig(f"{iterc}.png")
+    plt.savefig(f"res{iterc}.png")
     plt.show()

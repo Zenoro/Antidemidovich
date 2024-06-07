@@ -1,15 +1,16 @@
-import tkinter
 from tkinter import *
 from tkinter import messagebox
 from tkinter.ttk import Combobox
 import draw as dro
 from PIL import Image, ImageTk
-import os, time
+import os
 
-if os.getcwd().endswith("my_osip"):
+
+if os.getcwd().endswith("ODU-solutions"):
     os.chdir("8")
 
-def insert_info_into_entry(entr:Entry, info:str):
+
+def insert_info_into_entry(entr: Entry, info: str):
     entr.config(state='normal')
     entr.delete(0, END)
     entr.insert(END, info)
@@ -27,6 +28,10 @@ def start_handler():
         L = abs(x_r - x_l)
         H = abs(y_t - y_l)
         iter_num = int(combo.get())
+        if not os.path.exists('a.out'):
+            print("Compiling CPP code...", end='')
+            os.system("g++ main(1).cpp")
+            print("\tDone!")
         os.system(f"./a.out {x_l} {y_t} {L} {H} {a} {b} {iter_num}")
         with open("res.txt", "r") as fd:
             for line in fd:
@@ -45,25 +50,17 @@ def start_handler():
     except ValueError:
         messagebox.showinfo('Ошибка ValueError',
                             "Вы ввели необходимые параметры неверно.")
-    # except NameError:
-    #     messagebox.showinfo('Ошибка ValueError',
-    #                         "Параметр количества точек должен быть целым числом.")
 
 
 def draw_handler():
     if not os.path.exists("res.txt"):
         messagebox.showinfo('Ошибка ResNotFound',
-                            "Файл с результатами не был найден\nПопробуйте запустить программу снова либо изменить директорию")
+                            "Файл с результатами не был найден\nПопробуйте запустить \
+программу снова либо изменить директорию")
         return
     h = eval(h_entry.get())
     iterc = int(combo.get())
     dro.main("res.txt", h, iterc)
-    # img = Image.open("res.png").resize((600,233))
-    # img_shower = Label(image_frm)
-    # img_tk = ImageTk.PhotoImage(img)
-    # img_shower.image = img_tk
-    # img_shower.config(image=img_tk)
-    # img_shower.grid(row=0, column=0)
 
 
 def iteration_handler():
@@ -79,8 +76,6 @@ def iteration_handler():
     combo.delete(0, END)
     combo.insert(END, str(iter_num))
     os.system(f"./a.out {x_l} {y_t} {L} {H} {a} {b} {iter_num}")
-    while not os.path.exists("res.txt"):
-        time.sleep(0.1)
     with open("res.txt", "r") as fd:
         for line in fd:
             pass
@@ -95,8 +90,8 @@ root = Tk()
 root.config(bg="#FFFFFF")
 root.title("Вычислительная задача 8")
 for i in range(12):
-    root.columnconfigure(i, pad=20)
-    root.rowconfigure(i, pad=20)
+    root.columnconfigure(i, pad=4)
+    root.rowconfigure(i, pad=4)
 
 """Отображение оглавления"""
 Label(root,
@@ -135,7 +130,7 @@ b_param_ctch.grid(row=2,
                   sticky=W)
 
 """Текст координат"""
-Label(root, text="Координаты изначальной области", 
+Label(root, text="Координаты изначальной области",
       font=("Arial Bold", 10),
       bg="#FFFFFF").grid(row=3, column=0,
                          columnspan=4)
@@ -165,7 +160,7 @@ x1_ctch.grid(row=4,
 # y coords
 Label(root, text="y0 ", bg="#FFFFFF").grid(row=5,
                                            column=0,
-                                           sticky=E)  
+                                           sticky=E)
 y0_ctch = Entry(root,
                 width=9)
 y0_ctch.insert(END, '-2')
@@ -191,9 +186,9 @@ Label(root, text="Количество итераций",
                          sticky=E)
 
 combo = Combobox(root)
-combo['values'] = list(range(5,15))
+combo['values'] = list(range(5, 15))
 combo.current(3)
-combo.grid(row=6, column=2, 
+combo.grid(row=6, column=2,
            columnspan=2,
            sticky=W)
 
@@ -240,9 +235,9 @@ Label(root, text="Затраченное время (s)",
 time_elapsed_entry = Entry(root, width=10, bg="#FFFFFF")
 time_elapsed_entry.config(state='readonly')
 time_elapsed_entry.grid(row=9,
-                        column=2, 
-                        columnspan=2, 
-                        sticky=W, 
+                        column=2,
+                        columnspan=2,
+                        sticky=W,
                         padx=4, pady=1)
 
 """Количество ячеек"""
@@ -275,10 +270,10 @@ comps_entry.grid(row=11, column=2,
 
 """Лямбда вставка"""
 Label(root, text="Значение ln(lambda)", bg="#FFFFFF").grid(row=12,
-                                                            column=0,
-                                                            sticky=E,
-                                                            columnspan=2,
-                                                            padx=4, pady=2)
+                                                           column=0,
+                                                           sticky=E,
+                                                           columnspan=2,
+                                                           padx=4, pady=2)
 lambd_entry = Entry(root, width=10, bg="#FFFFFF")
 lambd_entry.config(state="readonly")
 lambd_entry.grid(row=12, column=2, columnspan=2,
@@ -294,8 +289,8 @@ Label(root, text="Энтропия", bg="#FFFFFF").grid(row=13,
 entropy_entry = Entry(root, width=10, bg="#FFFFFF")
 entropy_entry.config(state="readonly")
 entropy_entry.grid(row=13, column=2, columnspan=2,
-                 sticky=W,
-                 padx=4, pady=2)
+                   sticky=W,
+                   padx=4, pady=2)
 
 root.mainloop()
 

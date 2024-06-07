@@ -7,16 +7,19 @@ import numpy as np
 from numpy.linalg import eig
 
 
+if os.getcwd().endswith("ODU-solutions"):
+    os.chdir("5")
+
+
 def print_hadler():
     os.system("python3 drawer.py")
     start = time.time()
     while not os.path.exists('res.png'):
-        time.sleep(0.5)
-        if time.time() - start > 5:
-            messagebox.showinfo("Aborted (core dumped)", 
+        if time.time() - start > 8:
+            messagebox.showinfo("Aborted (core dumped)",
                                 "double free or corruption (out)")
             return 0
-    img = Image.open("res.png").resize((600,233))
+    img = Image.open("res.png").resize((600, 233))
     img_shower = tk.Label(image_frm)
     img_tk = ImageTk.PhotoImage(img)
     img_shower.image = img_tk
@@ -36,14 +39,14 @@ def count_handler():
     a33 = round(eval(a33_entry.get()), 3)
     iternum = int(iter_n_entry.get())
     matr = np.array([[a11, a12, a13], [a21, a22, a23], [a31, a32, a33]])
-    # print(matr)
-    # print(eig(matr)[0])
     start = time.time()
+    if not os.path.exists("a.out"):
+        print("Compiling CPP code...")
+        os.system("g++ main.cpp")
     os.system(f"./a.out {a11} {a12} {a13} {a21} {a22} {a23} {a31} {a32} {a33} {iternum}")
     while not os.path.exists("info"):
-        time.sleep(0.5)
-        if time.time() - start > 5:
-            messagebox.showinfo("Aborted (core dumped)", 
+        if time.time() - start > 8:
+            messagebox.showinfo("Aborted (core dumped)",
                                 "double free or corruption (out)")
             return 0
     with open('info', 'r') as f:
@@ -62,7 +65,7 @@ def count_handler():
     step_entry.config(state='readonly')
     eig_value_entry.config(state='normal')
     eig_value_entry.delete(0, tk.END)
-    eig_value_entry.insert(tk.END, ', '.join(map(str, 
+    eig_value_entry.insert(tk.END, ', '.join(map(str,
                                                  map(lambda x: np.round(x, 4), eig(matr)[0]))))
     eig_value_entry.config(state='readonly')
 
@@ -76,17 +79,15 @@ def next_iter():
 
 root = tk.Tk()
 root.config(bg="#FFFFFF")
-root.title("CRM")
+root.title("CRM localization")
 
-hello_txt = tk.Label(root, text="Локализация ЦРМ в проективном пространстве",
-                     font=("Arial Bold", 12), bg="#FFFFFF")
-hello_txt.pack()
+tk.Label(root, text="Локализация ЦРМ в проективном пространстве",
+         font=("Arial Bold", 12), bg="#FFFFFF").pack()
 
 params = tk.Frame(root, bg="#FFFFFF", pady=4)
 params.pack()
 """Ввод матрицы"""
-matrix_txt = tk.Label(params, text="Матрица А", bg="#FFFFFF")
-matrix_txt.grid(row=0, column=0, columnspan=3)
+tk.Label(params, text="Матрица А", bg="#FFFFFF").grid(row=0, column=0, columnspan=3)
 
 a11_entry = tk.Entry(params, width=5)
 a11_entry.insert(tk.END, '0.7')
@@ -121,44 +122,36 @@ a33_entry.grid(row=3, column=2)
 iters = tk.Frame(root, bg="#FFFFFF", pady=8)
 iters.pack()
 """Ввод количества итераций"""
-iter_n_txt = tk.Label(iters, text="Количество итераций: ",
-                      bg="#FFFFFF")
-iter_n_txt.grid(row=0, column=0, sticky=tk.E)
+tk.Label(iters, text="Количество итераций: ", bg="#FFFFFF").grid(row=0,
+                                                                 column=0,
+                                                                 sticky=tk.E)
 iter_n_entry = tk.Entry(iters, width=4)
 iter_n_entry.insert(tk.END, '3')
 iter_n_entry.grid(row=0, column=1, sticky=tk.W)
 
 btns = tk.Frame(root, bg="#FFFFFF", pady=8)
 btns.pack()
-
 """Задача кнопок действий"""
-print_btn = tk.Button(btns,
-                      text="Построить\nизображение",
-                      bg="green",
-                      command=print_hadler)
-print_btn.grid(row=0, column=0, padx=4)
-count_btn = tk.Button(btns,
-                      text="Запуск\nпрограммы",
-                      bg="black",
-                      fg="red",
-                      command=count_handler)
-count_btn.grid(row=0, column=1, padx=4)
-next_hop_btn = tk.Button(btns,
-                         text="Следующая\nитерация",
-                         bg="purple", fg="white",
-                         command=next_iter)
-next_hop_btn.grid(row=0, column=2, padx=4)
+tk.Button(btns, text="Построить\nизображение",
+          bg="green", command=print_hadler).grid(row=0,
+                                                 column=0,
+                                                 padx=4)
+tk.Button(btns, text="Запуск\nпрограммы",
+          bg="black", fg="red", command=count_handler).grid(row=0,
+                                                            column=1,
+                                                            padx=4)
+tk.Button(btns, text="Следующая\nитерация",
+          bg="purple", fg="white", command=next_iter).grid(row=0,
+                                                           column=2,
+                                                           padx=4)
 
 extra_info = tk.Frame(root, bg="#FFFFFF")
 extra_info.pack()
 """Затраченное время"""
-time_elapsed_txt = tk.Label(extra_info, 
-                            text="Затраченное время (s)", 
-                            bg="#FFFFFF")
-time_elapsed_txt.grid(row=0, 
-                      column=0, 
-                      sticky=tk.E,
-                      padx=4, pady=2)
+tk.Label(extra_info, text="Затраченное время (s)", bg="#FFFFFF").grid(row=0,
+                                                                      column=0,
+                                                                      sticky=tk.E,
+                                                                      padx=4, pady=2)
 time_elapsed_entry = tk.Entry(extra_info, width=10, bg="#FFFFFF")
 time_elapsed_entry.config(state='readonly')
 time_elapsed_entry.grid(row=0,
@@ -166,8 +159,10 @@ time_elapsed_entry.grid(row=0,
                         sticky=tk.W,
                         padx=4, pady=2)
 
-cells_txt = tk.Label(extra_info, text="Количество ячеек", bg="#FFFFFF")
-cells_txt.grid(row=1, column=0, sticky=tk.E, padx=4, pady=4)
+tk.Label(extra_info, text="Количество ячеек", bg="#FFFFFF").grid(row=1,
+                                                                 column=0,
+                                                                 sticky=tk.E,
+                                                                 padx=4, pady=4)
 cells_entry = tk.Entry(extra_info, width=10, bg="#FFFFFF")
 cells_entry.config(state='readonly')
 cells_entry.grid(row=1,
@@ -175,33 +170,31 @@ cells_entry.grid(row=1,
                  sticky=tk.W,
                  padx=4, pady=2)
 
-step_txt = tk.Label(extra_info,
-                    text="Полученный шаг",
-                    bg="#FFFFFF")
-step_txt.grid(row=2, column=0, sticky=tk.E,
-              padx=4, pady=2)
+tk.Label(extra_info, text="Полученный шаг", bg="#FFFFFF").grid(row=2,
+                                                               column=0,
+                                                               sticky=tk.E,
+                                                               padx=4, pady=2)
 step_entry = tk.Entry(extra_info, width=10, bg="#FFFFFF")
 step_entry.config(state='readonly')
-step_entry.grid(row=2,
-                 column=1,
-                 sticky=tk.W,
-                 padx=4, pady=2)
+step_entry.grid(row=2, column=1,
+                sticky=tk.W,
+                padx=4, pady=2)
 
-eig_value_txt = tk.Label(extra_info,
-                         text="Собственные значения",
-                         bg="#FFFFFF")
-eig_value_txt.grid(row=3, column=0, sticky=tk.E,
-                   padx=4, pady=2)
+tk.Label(extra_info, text="Собственные значения", bg="#FFFFFF").grid(row=3,
+                                                                     column=0,
+                                                                     sticky=tk.E,
+                                                                     padx=4, pady=2)
 eig_value_entry = tk.Entry(extra_info, width=15)
 eig_value_entry.config(state='readonly')
-eig_value_entry.grid(row=3, column=1, sticky=tk.W)
+eig_value_entry.grid(row=3, column=1,
+                     sticky=tk.W)
 
 """Вставка изображения"""
 image_frm = tk.Frame(root, bg="#FFFFFF", pady=5)
 image_frm.pack(pady=5)
 
 root.mainloop()
-for i in range(1,4):
+for i in range(1, 4):
     if os.path.exists(f"{i}buf"):
         os.remove(f"{i}buf")
 if os.path.exists("info"):

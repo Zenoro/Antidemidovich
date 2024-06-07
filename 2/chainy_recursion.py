@@ -6,7 +6,6 @@ import math as m
 import os
 
 
-
 def hyperloop(xdown, xup, ydown, yup, h, leng, pt, a, b):
     G = nx.DiGraph()
     xfunc = lambda x, y: x*x-y*y+a
@@ -51,7 +50,7 @@ def hyperloop(xdown, xup, ydown, yup, h, leng, pt, a, b):
     return G
 
 
-def main(x0:float, x1:float, y0:float, y1:float, h:float, iterc:int, a:float, b:float):
+def main(x0: float, x1: float, y0: float, y1: float, h: float, iterc: int, a: float, b: float):
     # G = nx.DiGraph()
     start_time = time.time()
     lengx = abs(x1 - x0) / h
@@ -59,17 +58,17 @@ def main(x0:float, x1:float, y0:float, y1:float, h:float, iterc:int, a:float, b:
         h /= 2
         lengx *= 2
     G = hyperloop(x0, x1, y0, y1, h*2, lengx/2, 4, a, b)
-    nx.write_graphml_xml(G,'tmpgraph')
+    nx.write_graphml_xml(G, 'tmpgraph')
     print(iterc, " iteration is done! Time elapsed: ", (time.time() - start_time))
     with open('buf', 'w') as f:
         f.write(f'{h} {lengx} {iterc}')
 
 
-def new_iterat(x0,x1,y0,y1,a,b, iterc):
+def new_iterat(x0, x1, y0, y1, a, b, iterc):
     start = time.time()
     with open('buf', 'r') as f:
         h, lengx, _ = map(float, f.readline().split())
-    newG = hyperloop(x0,x1,y0,y1,h,lengx,4,a,b)
+    newG = hyperloop(x0, x1, y0, y1, h, lengx, 4, a, b)
     os.remove('tmpgraph')
     nx.write_graphml_xml(newG, 'tmpgraph')
     print(f"{int(iterc)} iteration is done! Time elapsed: {time.time() - start}")
@@ -81,8 +80,8 @@ def draw(x0, x1, y0, y1, is_grid):
     G = nx.read_graphml('tmpgraph', node_type=int, edge_key_type=int)
     with open('buf', 'r') as f:
         h, lengx, gh = map(float, f.readline().split())
-        h*=2
-        lengx/=2
+        h *= 2
+        lengx /= 2
     xposition = lambda cell, leng: x0 + h * (cell - (cell - 1) // leng * leng - 1)
     yposition = lambda cell, leng: y1 - h * ((cell - 1) // leng + 1)
     plt.title(f'{int(gh)} iteration')
@@ -96,14 +95,12 @@ def draw(x0, x1, y0, y1, is_grid):
             total_cells += len(c)
             for elem in list(c):
                 # fd.write(f"{xposition(alist[k], lengx)} {yposition(alist[k], lengx)}\n")
-                ss = patches.Rectangle((xposition(elem, lengx), 
-                                        yposition(elem, lengx)), 
-                                        h, h, color = 'blue', fill=True)
+                ss = patches.Rectangle((xposition(elem, lengx),
+                                        yposition(elem, lengx)),
+                                       h, h, color='blue', fill=True)
                 ax.add_patch(ss)
     print(f"Total number of cells: {total_cells}")
     if is_grid:
         plt.grid()
     # fd.close()
     plt.show()
-
-

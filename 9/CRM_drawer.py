@@ -1,10 +1,8 @@
-import time
 import matplotlib.pyplot as plt
 import networkx as nx
 import matplotlib.patches as patches
 import math as m
 import os
-
 
 
 def hyperloop(xdown, xup, ydown, yup, h, leng, pt, a, b):
@@ -51,7 +49,7 @@ def hyperloop(xdown, xup, ydown, yup, h, leng, pt, a, b):
     return G
 
 
-def main(x0:float, x1:float, y0:float, y1:float, h:float, iterc:int, a:float, b:float):
+def main(x0, x1, y0, y1, h, iterc, a, b):
     lengx = abs(x1 - x0) / h
     # for _ in range(iterc-1):
     #     h /= 2
@@ -68,9 +66,9 @@ def main(x0:float, x1:float, y0:float, y1:float, h:float, iterc:int, a:float, b:
         if len(c) > 1:
             total_cells += len(c)
             for elem in list(c):
-                ss = patches.Rectangle((xposition(elem, lengx), 
-                                        yposition(elem, lengx)), 
-                                        h, h, color = 'blue', fill=True)
+                ss = patches.Rectangle((xposition(elem, lengx),
+                                        yposition(elem, lengx)),
+                                       h, h, color='blue', fill=True)
                 ax.add_patch(ss)
     print(f"Total number of cells: {total_cells}")
     plt.axis('off')
@@ -79,6 +77,7 @@ def main(x0:float, x1:float, y0:float, y1:float, h:float, iterc:int, a:float, b:
     plt.savefig(f"CRM{iterc}.png")
     plt.clf()
     plt.close()
+
 
 if __name__ == "__main__":
     main(-2, 2, -2, 2, 0.0078125, 9, 0.0, -0.6)

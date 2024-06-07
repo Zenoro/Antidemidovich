@@ -4,21 +4,23 @@ from tkinter import messagebox
 from tkinter.ttk import Combobox
 from PIL import Image, ImageTk
 import CRM_drawer as crm
-import os, time
+import os
+import time
 
-if os.getcwd().endswith("my_osip"):
+if os.getcwd().endswith("ODU-solutions"):
     os.chdir("9")
 
 
-DELETE_FLAG = True      # Flag of deleting images and result file after program working 
+DELETE_FLAG = True      # Flag of deleting images and result file after program working
 
-def timer(k:int):
+
+def timer(k: int):
     start = time.time()
     if time.time() - start > k:
         raise TimeoutError
 
 
-def add_new_line(x: str, n_line:int = 30):
+def add_new_line(x: str, n_line: int = 30):
     with open("main.cpp") as fd:
         file = fd.readlines()
     if ';' in x:
@@ -31,7 +33,7 @@ def add_new_line(x: str, n_line:int = 30):
             fd.writelines(file)
 
 
-def insert_info_into_entry(entr:Entry, info:str):
+def insert_info_into_entry(entr: Entry, info: str):
     entr.config(state='normal')
     entr.delete(0, END)
     entr.insert(END, info)
@@ -151,7 +153,7 @@ b_param_ctch.grid(row=0,
 
 """Текст координат"""
 Label(parameters_frame, text="Координаты изначальной области",
-      font=("Arial Bold", 10), bg="#FFFFFF").grid(row=1, column=0, 
+      font=("Arial Bold", 10), bg="#FFFFFF").grid(row=1, column=0,
                                                   columnspan=4, pady=8)
 
 """Ввод координат"""
@@ -173,7 +175,7 @@ x1_ctch.grid(row=2, column=3, sticky=W)
 # y coords
 Label(parameters_frame, text="y0 ", bg="#FFFFFF").grid(row=3,
                                                        column=0,
-                                                       sticky=E)  
+                                                       sticky=E)
 y0_ctch = Entry(parameters_frame, width=7)
 y0_ctch.insert(END, '-2')
 y0_ctch.grid(row=3,
@@ -188,9 +190,9 @@ y1_ctch.insert(END, '2')
 y1_ctch.grid(row=3, column=3, sticky=W)
 
 """Выбор количества итераций"""
-Label(parameters_frame, text="Количество итераций:", 
+Label(parameters_frame, text="Количество итераций:",
       bg="#FFFFFF").grid(row=4, column=0,
-                         columnspan=2, 
+                         columnspan=2,
                          padx=2, pady=10,
                          sticky=E)
 
@@ -261,9 +263,9 @@ Label(info_frame, text="Затраченное время (s)",
                          padx=4, pady=1)
 time_elapsed_entry = Entry(info_frame, width=10, bg="#FFFFFF")
 time_elapsed_entry.config(state='readonly')
-time_elapsed_entry.grid(row=1, column=2, 
-                        columnspan=2, 
-                        sticky=W, 
+time_elapsed_entry.grid(row=1, column=2,
+                        columnspan=2,
+                        sticky=W,
                         padx=4, pady=1)
 
 """Количество ячеек"""

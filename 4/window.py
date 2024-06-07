@@ -88,18 +88,15 @@ def iteration_handler():
 root = tk.Tk()
 root.config(bg="#FFFFFF")
 # root.geometry("600x450")
-root.title("Symbolic Shape Julya")
+root.title("Symbolic Shape Duffing")
 
 
 """Отображение оглавления"""
-hello_words = tk.Label(root,
-                       text="Программа для построения цепно-реккурентного множества\nотображения Дуффинга",
-                       font=("Arial Bold", 12),
-                       bg="#FFFFFF")
-hello_words.pack()
+tk.Label(root, text="Программа для построения цепно-реккурентного множества\nотображения Дуффинга",
+         font=("Arial Bold", 12), bg="#FFFFFF").pack()
 
 img_otobrazh_shower = tk.Label(root, bg="#FFFFFF")
-img_otobr = Image.open("otobrzhenie.png").resize((240, 82))
+img_otobr = Image.open("icons/otobrzhenie.png").resize((240, 82))
 img_otobr_tk = ImageTk.PhotoImage(img_otobr)
 img_otobrazh_shower.config(image=img_otobr_tk)
 img_otobrazh_shower.pack()
@@ -108,12 +105,9 @@ params = tk.Frame(root, bg="#FFFFFF")
 params.pack(pady=5)
 
 """Ввод параметра k"""
-k_param_txt = tk.Label(params,
-                       text="k = ",
-                       bg="#FFFFFF")
-k_param_txt.grid(row=0,
-                 column=0,
-                 sticky=tk.E)
+tk.Label(params, text="k = ", bg="#FFFFFF").grid(row=0,
+                                                 column=0,
+                                                 sticky=tk.E)
 k_param_ctch = tk.Entry(params, width=9)
 k_param_ctch.insert(tk.END, '0.25')
 k_param_ctch.grid(row=0,
@@ -121,12 +115,9 @@ k_param_ctch.grid(row=0,
                   sticky=tk.W)
 
 """Ввод параметра alpha"""
-alpha_param_txt = tk.Label(params,
-                           text="α = ",
-                           bg="#FFFFFF")
-alpha_param_txt.grid(row=0,
-                     column=2,
-                     sticky=tk.E)
+tk.Label(params, text="α = ", bg="#FFFFFF").grid(row=0,
+                                                 column=2,
+                                                 sticky=tk.E)
 alpha_param_ctch = tk.Entry(params, width=9)
 alpha_param_ctch.insert(tk.END, '1')
 alpha_param_ctch.grid(row=0,
@@ -134,12 +125,9 @@ alpha_param_ctch.grid(row=0,
                       sticky=tk.W)
 
 """Ввод параметра B"""
-b_param_txt = tk.Label(params,
-                       text="B = ",
-                       bg="#FFFFFF")
-b_param_txt.grid(row=1,
-                 column=0,
-                 sticky=tk.E)
+tk.Label(params, text="B = ", bg="#FFFFFF").grid(row=1,
+                                                 column=0,
+                                                 sticky=tk.E)
 b_param_ctch = tk.Entry(params, width=9)
 b_param_ctch.insert(tk.END, '0.3')
 b_param_ctch.grid(row=1,
@@ -147,12 +135,9 @@ b_param_ctch.grid(row=1,
                   sticky=tk.W)
 
 """Ввод параметра beta"""
-beta_param_txt = tk.Label(params,
-                          text="β = ",
-                          bg="#FFFFFF")
-beta_param_txt.grid(row=1,
-                    column=2,
-                    sticky=tk.E)
+tk.Label(params, text="β = ", bg="#FFFFFF").grid(row=1,
+                                                 column=2,
+                                                 sticky=tk.E)
 beta_param_ctch = tk.Entry(params, width=9)
 beta_param_ctch.insert(tk.END, '-1')
 beta_param_ctch.grid(row=1,
@@ -160,13 +145,10 @@ beta_param_ctch.grid(row=1,
                      sticky=tk.W)
 
 """Ввод параметра omega"""
-omega_param_txt = tk.Label(params,
-                           text="ω = ",
-                           bg="#FFFFFF")
-omega_param_txt.grid(row=2,
-                     column=0,
-                     columnspan=2,
-                     sticky=tk.E)
+tk.Label(params, text="ω = ", bg="#FFFFFF").grid(row=2,
+                                                 column=0,
+                                                 columnspan=2,
+                                                 sticky=tk.E)
 omega_param_ctch = tk.Entry(params, width=9)
 omega_param_ctch.insert(tk.END, '1')
 omega_param_ctch.grid(row=2,
@@ -177,62 +159,43 @@ omega_param_ctch.grid(row=2,
 coord = tk.Frame(root, bg="#FFFFFF")
 coord.pack(pady=5)
 """Текст координат"""
-coord_words = tk.Label(coord,
-                       text="Координаты изначальной области",
-                       font=("Arial Bold", 10),
-                       bg="#FFFFFF")
-coord_words.grid(row=0,
-                 column=0,
-                 columnspan=4)
-
+tk.Label(coord, text="Координаты изначальной области",
+         font=("Arial Bold", 10), bg="#FFFFFF").grid(row=0,
+                                                     column=0,
+                                                     columnspan=4)
 """Ввод координат"""
 # x coords
-x0_text = tk.Label(coord,
-                   text="x0 ",
-                   bg="#FFFFFF")
-x0_text.grid(row=1,
-             column=0,
-             sticky=tk.E)
-
+tk.Label(coord, text="x0 ", bg="#FFFFFF").grid(row=1,
+                                               column=0,
+                                               sticky=tk.E)
 x0_ctch = tk.Entry(coord, width=9)
 x0_ctch.insert(tk.END, '-2')
 x0_ctch.grid(row=1,
              column=1,
              sticky=tk.W)
 
-x1_text = tk.Label(coord,
-                   text="x1 ",
-                   bg="#FFFFFF")
-x1_text.grid(row=1,
-             column=2,
-             sticky=tk.E)
-
+tk.Label(coord, text="x1 ", bg="#FFFFFF").grid(row=1,
+                                               column=2,
+                                               sticky=tk.E)
 x1_ctch = tk.Entry(coord, width=9)
 x1_ctch.insert(tk.END, '2')
 x1_ctch.grid(row=1,
              column=3,
              sticky=tk.W)
-# y coords
-y0_text = tk.Label(coord,
-                   text="y0 ",
-                   bg="#FFFFFF")
-y0_text.grid(row=2,
-             column=0,
-             sticky=tk.E)
 
+# y coords
+tk.Label(coord, text="y0 ", bg="#FFFFFF").grid(row=2,
+                                               column=0,
+                                               sticky=tk.E)
 y0_ctch = tk.Entry(coord, width=9)
 y0_ctch.insert(tk.END, '-2')
 y0_ctch.grid(row=2,
              column=1,
              sticky=tk.W)
 
-y1_text = tk.Label(coord,
-                   text="y1 ",
-                   bg="#FFFFFF")
-y1_text.grid(row=2,
-             column=2,
-             sticky=tk.E)
-
+tk.Label(coord, text="y1 ", bg="#FFFFFF").grid(row=2,
+                                               column=2,
+                                               sticky=tk.E)
 y1_ctch = tk.Entry(coord, width=9)
 y1_ctch.insert(tk.END, '2')
 y1_ctch.grid(row=2,
@@ -242,13 +205,10 @@ y1_ctch.grid(row=2,
 other_params = tk.Frame(root, bg="#FFFFFF")
 other_params.pack(pady=5)
 """Ввод шага"""
-step_txt = tk.Label(other_params,
-                    text="Шаг (h): ",
-                    bg="#FFFFFF")
-step_txt.grid(row=0,
-              column=0,
-              columnspan=2,
-              sticky=tk.E)
+tk.Label(other_params, text="Шаг (h): ", bg="#FFFFFF").grid(row=0,
+                                                            column=0,
+                                                            columnspan=2,
+                                                            sticky=tk.E)
 step_ctch = tk.Entry(other_params, width=9)
 step_ctch.insert(tk.END, '0.5')
 step_ctch.grid(row=0,
@@ -257,14 +217,10 @@ step_ctch.grid(row=0,
                sticky=tk.W)
 
 """Ввод количества точек внутри области"""
-pnt_sqr_txt = tk.Label(other_params,
-                       text="Корень кол-ва точек внутри области: ",
-                       bg="#FFFFFF")
-pnt_sqr_txt.grid(row=1,
-                 column=0,
-                 columnspan=2,
-                 sticky=tk.E)
-
+tk.Label(other_params, text="Корень кол-ва точек внутри области: ", bg="#FFFFFF").grid(row=1,
+                                                                                       column=0,
+                                                                                       columnspan=2,
+                                                                                       sticky=tk.E)
 pnt_sqr_ctch = tk.Entry(other_params, width=9)
 pnt_sqr_ctch.insert(tk.END, "5")
 pnt_sqr_ctch.grid(row=1,
@@ -273,13 +229,10 @@ pnt_sqr_ctch.grid(row=1,
                   sticky=tk.W)
 
 """Выбор количества итераций"""
-iter_num_txt = tk.Label(other_params,
-                        text="Количество итераций",
-                        bg="#FFFFFF")
-iter_num_txt.grid(row=2,
-                  column=0,
-                  columnspan=2,
-                  sticky=tk.E)
+tk.Label(other_params, text="Количество итераций", bg="#FFFFFF").grid(row=2,
+                                                                      column=0,
+                                                                      columnspan=2,
+                                                                      sticky=tk.E)
 combo = Combobox(other_params)
 combo['values'] = list(range(1, 11))
 combo.current(3)
@@ -291,46 +244,30 @@ combo.grid(row=2,
 buttons_frm = tk.Frame(root, bg="#FFFFFF")
 buttons_frm.pack(pady=5)
 """Задание кнопки запуска"""
-btn = tk.Button(buttons_frm,
-                text="Запуск программы",
-                bg="black",
-                fg="red",
-                command=start_handler)
-btn.grid(row=1,
-         column=1,
-         columnspan=2,
-         pady=16, padx=5)
+tk.Button(buttons_frm, text="Запуск программы",
+          bg="black", fg="red", command=start_handler).grid(row=1,
+                                                            column=1,
+                                                            columnspan=2,
+                                                            pady=16, padx=5)
 
-draw_btn = tk.Button(buttons_frm,
-                     text="Построить решение",
-                     bg="green",
-                     fg="black",
-                     command=draw_handler)
-draw_btn.grid(row=1,
-              column=0,
-              pady=16, padx=5)
+tk.Button(buttons_frm, text="Построить решение",
+          bg="green", fg="black", command=draw_handler).grid(row=1,
+                                                             column=0,
+                                                             pady=16, padx=5)
 
-iter_btn = tk.Button(buttons_frm,
-                     text="Следующая итерация",
-                     bg="purple",
-                     fg="blue",
-                     command=iteration_handler)
-iter_btn.grid(row=1,
-              column=3,
-              pady=16, padx=5)
+tk.Button(buttons_frm, text="Следующая итерация",
+          bg="purple", fg="blue", command=iteration_handler).grid(row=1,
+                                                                  column=3,
+                                                                  pady=16, padx=5)
 
 info_frm = tk.Frame(root, bg="#FFFFFF")
 info_frm.pack(pady=5)
-
 """Количество ячеек"""
-cell_count_txt = tk.Label(info_frm,
-                          text="Количество обработанных ячеек",
-                          bg="#FFFFFF")
-cell_count_txt.grid(row=0,
-                    column=0,
-                    sticky=tk.E,
-                    columnspan=2,
-                    padx=4, pady=4)
+tk.Label(info_frm, text="Количество обработанных ячеек", bg="#FFFFFF").grid(row=0,
+                                                                            column=0,
+                                                                            sticky=tk.E,
+                                                                            columnspan=2,
+                                                                            padx=4, pady=4)
 cell_count_entry = tk.Entry(info_frm, width=8, bg="#FFFFFF")
 cell_count_entry.config(state='readonly')
 cell_count_entry.grid(row=0,
@@ -340,14 +277,11 @@ cell_count_entry.grid(row=0,
                       padx=4, pady=4)
 
 """Затраченное время"""
-time_elapsed_txt = tk.Label(info_frm,
-                            text="Затраченное время (ms)",
-                            bg="#FFFFFF")
-time_elapsed_txt.grid(row=1,
-                      column=0,
-                      sticky=tk.E,
-                      columnspan=2,
-                      padx=4, pady=4)
+tk.Label(info_frm, text="Затраченное время (ms)", bg="#FFFFFF").grid(row=1,
+                                                                     column=0,
+                                                                     sticky=tk.E,
+                                                                     columnspan=2,
+                                                                     padx=4, pady=4)
 time_elapsed_entry = tk.Entry(info_frm, width=8, bg="#FFFFFF")
 time_elapsed_entry.config(state='readonly')
 time_elapsed_entry.grid(row=1,
@@ -371,4 +305,3 @@ except FileExistsError:
 except:
     messagebox.showinfo('Temp deletion error',
                         "Try to delete temp files finished unsuccessfully. Exiting...")
-    # print("Try to delete temp files finished unsuccessfully. Exiting...")

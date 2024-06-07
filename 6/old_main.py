@@ -4,19 +4,19 @@ import networkx as nx
 import matplotlib.patches as patches
 import math as m
 import os
-# import multiprocessing
 
-def f(t,x,y,alpha,beta,k,B,omega):
+
+def f(t, x, y, alpha, beta, k, B, omega):
     return alpha*x + beta*x**3 - k*y + B*m.cos(omega*t)
 
 
-def g(t,x,y):
+def g(t, x, y):
     return y
 
 
 def euler(x0, y0, alpha, beta, omeg, k, B, step):
     t0 = 0
-    while t0<1:
+    while t0 < 1:
         xrz = x0 + f(t0, x0, y0, alpha, beta, k, B, omeg)*step
         yrz = y0 + g(t0, x0, y0)*step
         t0 += step
@@ -67,9 +67,8 @@ def cell_dribling(item, leng):
     return new1, new2, new3, new4
 
 
-def hyperloop(xdown:float, xup:float, ydown:float, yup:float, 
-              h:float, leng:float, s_list:list[int], 
-              pt:int, alph:float, bet:float, omega:float, K:float, B:float, flg=True):
+def hyperloop(xdown, xup, ydown, yup, h, leng, s_list,
+              pt, alph, bet, omega, K, B, flg=True):
     G = nx.DiGraph()
     cou = 1
     xtmp = xdown
@@ -95,7 +94,7 @@ def hyperloop(xdown:float, xup:float, ydown:float, yup:float,
                             continue
                         cell = m.floor(((yup - yrz) / h)) * leng + m.ceil((xrz - xdown) / h) // 1 + 1
                         # if cell not in cell_list:
-                            # cell_list.append(cell)
+                        # cell_list.append(cell)
                         G.add_edge(int(cou), int(cell))
 
                     xtmp = xckl
@@ -118,8 +117,8 @@ def hyperloop(xdown:float, xup:float, ydown:float, yup:float,
     return G
 
 
-def main(x0:float, x1:float, y0:float, y1:float, h:float, pts:int,
-         iterc:int, alpha:float, beta:float, omega:float, k:float, B:float):
+def main(x0: float, x1: float, y0: float, y1: float, h: float, pts: int,
+         iterc: int, alpha: float, beta: float, omega: float, k: float, B: float):
     G = nx.DiGraph()
     start = time.time()
     lengx = abs(x1 - x0) / h
@@ -139,7 +138,7 @@ def main(x0:float, x1:float, y0:float, y1:float, h:float, pts:int,
         print(gh+1, " iteration is done! Time elapsed: ", (time.time() - start))
     with open('time.out', 'w') as ff:
         ff.write(f"{time.time() - start}")
-    nx.write_graphml_xml(G,'tmpgraph')
+    nx.write_graphml_xml(G, 'tmpgraph')
     with open('buf', 'w') as f:
         f.write(f'{h} {lengx} {iterc}\n')
         f.write(f"{' '.join(map(str, map(int, list_good_dots)))}")
@@ -174,15 +173,13 @@ def draw(x0, x1, y0, y1, is_grid):
     G = nx.read_graphml('tmpgraph', node_type=int, edge_key_type=int)
     with open('buf', 'r') as f:
         h, lengx, gh = map(float, f.readline().split())
-        h*=2
-        lengx/=2
+        h *= 2
+        lengx /= 2
     xposition = lambda cell, leng: x0 + h * (cell - (cell - 1) // leng * leng - 1)
     yposition = lambda cell, leng: y1 - h * ((cell - 1) // leng + 1)
-    # plt.title(f'{int(gh)} iteration')
     plt.xlim(x0, x1)
     plt.ylim(y0, y1)
     ax = plt.gca()
-    # fd = open('buf', 'w')
     total_cells = 0
     print("Creating matplotlib graph...")
     for c in nx.kosaraju_strongly_connected_components(G):
@@ -190,17 +187,17 @@ def draw(x0, x1, y0, y1, is_grid):
         if len(c) > 1:
             for elem in list(c):
                 # fd.write(f"{xposition(alist[k], lengx)} {yposition(alist[k], lengx)}\n")
-                ss = patches.Rectangle((xposition(elem, lengx), 
-                                        yposition(elem, lengx)), 
-                                        h, h, color = 'blue', fill=True)
+                ss = patches.Rectangle((xposition(elem, lengx),
+                                        yposition(elem, lengx)),
+                                       h, h, color='blue', fill=True)
                 ax.add_patch(ss)
         else:
             for elem in list(c):
-                ss = patches.Rectangle((xposition(elem, lengx), 
-                                        yposition(elem, lengx)), 
-                                        h, h, color = 'black', fill=True)
+                ss = patches.Rectangle((xposition(elem, lengx),
+                                        yposition(elem, lengx)),
+                                       h, h, color='black', fill=True)
                 ax.add_patch(ss)
-    ss = patches.Rectangle((0, 0), h, h, color = 'black', fill=True)
+    ss = patches.Rectangle((0, 0), h, h, color='black', fill=True)
     with open("sys.out", 'w') as ff:
         ff.write(f"{total_cells}")
     if is_grid:
@@ -210,8 +207,8 @@ def draw(x0, x1, y0, y1, is_grid):
     plt.close()
 
 
-def main_for_place(x0:float, x1:float, y0:float, y1:float, h:float, pts:int,
-         iterc:int, alpha:float, beta:float, omega:float, k:float, B:float):
+def main_for_place(x0: float, x1: float, y0: float, y1: float, h: float, pts: int,
+                   iterc: int, alpha: float, beta: float, omega: float, k: float, B: float):
     G = nx.DiGraph()
     start = time.time()
     lengx = abs(x1 - x0) / h
@@ -229,7 +226,7 @@ def main_for_place(x0:float, x1:float, y0:float, y1:float, h:float, pts:int,
         for i in range(len(newbuf)):
             list_good_dots += cell_dribling(newbuf[i], lengx)
         print(gh+1, " iteration is done! Time elapsed: ", (time.time() - start))
-    h*=2
+    h *= 2
     lengx /= 2
     max_component = max(nx.kosaraju_strongly_connected_components(G), key=len)
     odnaych = list(max_component)[0]
@@ -242,7 +239,7 @@ def main_for_place(x0:float, x1:float, y0:float, y1:float, h:float, pts:int,
     ax = plt.gca()
     for e in nodes_with_route_to_odnaych:
         x, y = xposition(e, lengx), yposition(e, lengx)
-        ss = patches.Rectangle((x, y), h, h, color = 'black', fill=True)
+        ss = patches.Rectangle((x, y), h, h, color='black', fill=True)
         ax.add_patch(ss)
     plt.savefig(f"area{iterc}.png")
     plt.clf()
