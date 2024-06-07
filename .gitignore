@@ -1,2 +1,6 @@
 *.out
 __pycache__
+/6/res*
+/6/area*
+res*
+buf*

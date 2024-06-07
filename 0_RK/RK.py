@@ -1,24 +1,13 @@
 import math as maf
 import matplotlib.pyplot as plt
-import time, os
-import tkinter as tk
-from tkinter import messagebox
+import time
+import os
 
 
 def main(t0, xUp, x0, y0, h, alpha, beta, omeg, k, B):
-    # начальные условия
-    # print("Solution for x(2)+δx(1)-x+x^3=γcos(ωt)")
-    # t0 = float(input("Enter the t0:  "))
-    # xUp = float(input("Enter the tmax of segment: "))         # отрезок [x0, xUp]
-    # x0 = float(input("Enter the x0:  "))
-    # y0 = float(input("Enter x'0: "))
-    # h = float(input("Enter the step h:  "))
-    # chose = input("Custom coefficients?(y/n)   ")
-    # omeg = 1
-    # delta = 0.25
-    # gamma = 0.3
+    """Solution for x(2)+δx(1)-x+x^3=γcos(ωt)"""
     start_time = time.time()
-    f = lambda t, x, y:  -k * y + alpha * x + beta * x * x * x + B * maf.cos(h * t)
+    f = lambda t, x, y: -k*y + alpha*x + beta*x**3 + B*maf.cos(h*t)
     g = lambda t, x, y: y
 
     t_list = [t0]
@@ -50,10 +39,7 @@ def main(t0, xUp, x0, y0, h, alpha, beta, omeg, k, B):
     with open('buf.txt', 'w') as f:
         f.write(str((time.time() - start_time)*1000))
 
-    #строим график Метода Рунге-Кутта
-    # plt.title("Runge-Kutta method")
-    plt.clf()
-    plt.rc('font', **{'family': 'arial'})
+    # строим график Метода Рунге-Кутта
     plt.xlabel("X axis")
     plt.ylabel("Y axis")
     plt.plot(x_list, y_list, "g-", marker='.', label="Runge-Kutta method")
@@ -62,3 +48,5 @@ def main(t0, xUp, x0, y0, h, alpha, beta, omeg, k, B):
     if os.path.exists('res.png'):
         os.remove('res.png')
     plt.savefig('res.png')
+    plt.clf()
+    plt.close()
